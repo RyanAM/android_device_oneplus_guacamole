@@ -1,0 +1,20 @@
+on early-init
+    # Ubuntu Touch - Loading kernel modules in background
+    start vendor.insmod_sh
+
+on early-boot
+    # Ubuntu Touch: relax access perms to vibrator
+    chmod 666 /sys/class/timed_output/vibrator/enable
+
+service miniafservice /system/bin/miniafservice
+    class core
+    user root
+    group audio
+
+service vendor.insmod_sh /sbin/sh /vendor/bin/init.insmod.sh
+    class main
+    user root
+    group root system
+    disabled
+    oneshot
+
